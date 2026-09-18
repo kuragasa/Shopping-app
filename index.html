@@ -3,19 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>お買い物メモ</title>
+  <title>おかいものメモ 🛍️</title>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #4F46E5;
-      --primary-hover: #4338CA;
-      --bg: #F3F4F6;
+      --primary: #FF85A1;
+      --primary-hover: #FF6B8B;
+      --primary-light: #FFE5EC;
+      --secondary: #FFB3C1;
+      --bg: #FFF5F7;
       --card-bg: #FFFFFF;
-      --text: #1F2937;
-      --text-muted: #6B7280;
-      --border: #E5E7EB;
-      --danger: #EF4444;
-      --success: #10B981;
+      --text: #5C3D46;
+      --text-muted: #A3828C;
+      --border: #FFE0E6;
+      --danger: #FF6B6B;
+      --success: #6BCB77;
+      --accent: #FFD166;
     }
 
     * {
@@ -26,11 +32,11 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: 'Zen Maru Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      padding-bottom: 40px;
+      padding-bottom: 50px;
     }
 
     header {
@@ -39,36 +45,40 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 15px rgba(255, 133, 161, 0.12);
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 8px;
+      border-bottom: 2px solid var(--border);
     }
 
     header h1 {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text);
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--primary-hover);
+      letter-spacing: 0.05em;
     }
 
     header i {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       color: var(--primary);
     }
 
     .container {
-      max-width: 600px;
+      max-width: 500px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 20px 16px;
     }
 
     /* Add Form */
     .add-card {
       background: var(--card-bg);
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      margin-bottom: 24px;
+      padding: 14px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(255, 133, 161, 0.1);
+      margin-bottom: 28px;
+      border: 2px solid var(--border);
     }
 
     .input-group {
@@ -78,16 +88,20 @@
 
     input[type="text"] {
       flex: 1;
-      padding: 12px 16px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 1rem;
+      padding: 12px 18px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-family: inherit;
       outline: none;
-      transition: border-color 0.2s;
+      background: #FFFBFB;
+      color: var(--text);
+      transition: all 0.2s;
     }
 
     input[type="text"]:focus {
       border-color: var(--primary);
+      background: #FFFFFF;
     }
 
     .btn-add {
@@ -95,29 +109,43 @@
       color: white;
       border: none;
       padding: 0 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 1rem;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: inherit;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 4px;
+      box-shadow: 0 3px 8px rgba(255, 133, 161, 0.3);
+      transition: transform 0.1s, background 0.2s;
     }
 
     .btn-add:active {
+      transform: scale(0.96);
       background: var(--primary-hover);
     }
 
     /* Lists */
     .section-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text-muted);
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--text);
       margin-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 4px;
+    }
+
+    .badge {
+      background: var(--primary-light);
+      color: var(--primary-hover);
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
     }
 
     .item-list {
@@ -125,17 +153,18 @@
       margin-bottom: 32px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
 
     .item-card {
       background: var(--card-bg);
-      border-radius: 12px;
+      border-radius: 18px;
       padding: 12px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+      border: 2px solid var(--border);
       gap: 12px;
     }
 
@@ -149,27 +178,36 @@
 
     .item-text {
       font-size: 1rem;
+      font-weight: 700;
       word-break: break-all;
+    }
+
+    .bought-item {
+      background: #FAF8F8;
+      border-color: #F0E6E8;
     }
 
     .bought-item .item-text {
       color: var(--text-muted);
       text-decoration: line-through;
+      font-weight: 500;
     }
 
     .item-thumb {
-      width: 54px;
-      height: 54px;
-      border-radius: 8px;
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
       object-fit: cover;
-      background: #f0f0f0;
+      background: var(--primary-light);
       cursor: pointer;
       flex-shrink: 0;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
 
     .actions {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
     }
 
@@ -177,38 +215,41 @@
       border: none;
       background: none;
       padding: 8px;
-      border-radius: 6px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 1.25rem;
+      font-family: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.1s;
+    }
+
+    .btn-action:active {
+      transform: scale(0.92);
     }
 
     .btn-buy {
-      background: #EEF2FF;
-      color: var(--primary);
-      padding: 8px 12px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      border-radius: 8px;
+      background: var(--primary-light);
+      color: var(--primary-hover);
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 12px;
       gap: 4px;
-    }
-
-    .btn-buy:active {
-      background: #E0E7FF;
     }
 
     .btn-restore {
       color: var(--text-muted);
-      background: var(--bg);
+      background: #EFE8EA;
       padding: 6px 12px;
-      font-size: 0.85rem;
-      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 10px;
     }
 
     .btn-delete {
-      color: #9CA3AF;
+      color: #D1B8C0;
+      font-size: 1.2rem;
     }
 
     .btn-delete:active {
@@ -217,19 +258,21 @@
 
     .empty-state {
       text-align: center;
-      padding: 24px;
+      padding: 24px 16px;
       color: var(--text-muted);
       font-size: 0.9rem;
-      background: rgba(255,255,255,0.5);
-      border-radius: 12px;
-      border: 1px dashed var(--border);
+      font-weight: 700;
+      background: rgba(255,255,255,0.6);
+      border-radius: 18px;
+      border: 2px dashed var(--border);
     }
 
     /* Modal / Dialog */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(92, 61, 70, 0.4);
+      backdrop-filter: blur(3px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -247,23 +290,27 @@
 
     .modal-card {
       background: var(--card-bg);
-      border-radius: 16px;
+      border-radius: 24px;
       padding: 24px;
       width: 100%;
-      max-width: 400px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      max-width: 360px;
+      box-shadow: 0 10px 30px rgba(255, 133, 161, 0.2);
       text-align: center;
+      border: 3px solid var(--border);
     }
 
     .modal-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--primary-hover);
+      margin-bottom: 6px;
     }
 
     .modal-card p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
+      font-weight: 700;
     }
 
     .camera-upload-btn {
@@ -273,17 +320,18 @@
       justify-content: center;
       gap: 8px;
       border: 2px dashed var(--primary);
-      background: #EEF2FF;
-      color: var(--primary);
-      padding: 24px;
-      border-radius: 12px;
+      background: var(--primary-light);
+      color: var(--primary-hover);
+      padding: 20px;
+      border-radius: 16px;
       cursor: pointer;
       margin-bottom: 16px;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 0.9rem;
     }
 
     .camera-upload-btn i {
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
 
     .preview-container {
@@ -295,7 +343,8 @@
       width: 100%;
       max-height: 200px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 14px;
+      border: 2px solid var(--border);
     }
 
     .modal-actions {
@@ -309,10 +358,12 @@
       color: white;
       border: none;
       padding: 12px;
-      border-radius: 8px;
-      font-weight: 600;
+      border-radius: 14px;
+      font-weight: 700;
+      font-family: inherit;
       cursor: pointer;
       width: 100%;
+      box-shadow: 0 3px 8px rgba(255, 133, 161, 0.3);
     }
 
     .btn-skip {
@@ -320,7 +371,9 @@
       border: none;
       color: var(--text-muted);
       padding: 8px;
-      font-size: 0.875rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: inherit;
       cursor: pointer;
     }
 
@@ -329,7 +382,9 @@
       max-width: 90vw;
       max-height: 80vh;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 16px;
+      border: 3px solid white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     #cameraInput {
@@ -340,32 +395,32 @@
 <body>
 
   <header>
-    <i class="ph-bold ph-shopping-bag-open"></i>
-    <h1>お買い物メモ</h1>
+    <i class="ph-fill ph-heart"></i>
+    <h1>おかいものメモ</h1>
   </header>
 
   <div class="container">
     <!-- Add Form -->
     <div class="add-card">
       <div class="input-group">
-        <input type="text" id="itemInput" placeholder="買うものを入力..." onkeypress="handleKeyPress(event)">
+        <input type="text" id="itemInput" placeholder="かうものを入力..." onkeypress="handleKeyPress(event)">
         <button class="btn-add" onclick="addItem()">
-          <i class="ph-bold ph-plus"></i> 追加
+          <i class="ph-bold ph-plus"></i> ついの追加
         </button>
       </div>
     </div>
 
     <!-- Todo List -->
     <div class="section-title">
-      <span>買いたいもの</span>
-      <span id="todoCount">0件</span>
+      <span>買いたいもの 🛒</span>
+      <span id="todoCount" class="badge">0件</span>
     </div>
     <ul id="todoList" class="item-list"></ul>
 
     <!-- Bought List -->
-    <div class="section-title" style="margin-top: 32px;">
-      <span>買ったもの</span>
-      <span id="boughtCount">0件</span>
+    <div class="section-title" style="margin-top: 36px;">
+      <span>買ったもの 🎁</span>
+      <span id="boughtCount" class="badge">0件</span>
     </div>
     <ul id="boughtList" class="item-list"></ul>
   </div>
@@ -373,12 +428,12 @@
   <!-- Buy Modal -->
   <div class="modal-overlay" id="buyModal">
     <div class="modal-card">
-      <h3 id="modalItemName">商品の記録</h3>
-      <p>購入した商品の写真を撮影・保存できます</p>
+      <h3 id="modalItemName">商品のきろく</h3>
+      <p>買ったものの写真をのこせるよ 📸</p>
 
       <label class="camera-upload-btn" for="cameraInput" id="uploadLabel">
-        <i class="ph-bold ph-camera"></i>
-        <span>タップして写真を撮影/選択</span>
+        <i class="ph-fill ph-camera"></i>
+        <span>タップしてパシャリ！</span>
       </label>
       <input type="file" id="cameraInput" accept="image/*" capture="environment" onchange="handleImageSelect(event)">
 
@@ -387,7 +442,7 @@
       </div>
 
       <div class="modal-actions">
-        <button class="btn-confirm" id="btnSaveBought" onclick="confirmBuy(true)" style="display: none;">写真付きで保存</button>
+        <button class="btn-confirm" id="btnSaveBought" onclick="confirmBuy(true)" style="display: none;">写真付きで保存する</button>
         <button class="btn-skip" onclick="confirmBuy(false)">写真なしで「買った」にする</button>
         <button class="btn-skip" onclick="closeBuyModal()" style="color: var(--danger);">キャンセル</button>
       </div>
@@ -404,7 +459,6 @@
     let currentTargetId = null;
     let selectedImageData = null;
 
-    // Load Data on Startup
     window.onload = function() {
       const saved = localStorage.getItem('shopping_items_v2');
       if (saved) {
@@ -476,7 +530,6 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        // Compress Image
         const img = new Image();
         img.onload = function() {
           const canvas = document.createElement('canvas');
@@ -559,7 +612,7 @@
       document.getElementById('boughtCount').textContent = `${boughtItems.length}件`;
 
       if (todoItems.length === 0) {
-        todoList.innerHTML = '<div class="empty-state">買いたいものは現在ありません</div>';
+        todoList.innerHTML = '<div class="empty-state">買いたいものはまだないよ 🎈</div>';
       } else {
         todoItems.forEach(item => {
           const li = document.createElement('li');
@@ -582,7 +635,7 @@
       }
 
       if (boughtItems.length === 0) {
-        boughtList.innerHTML = '<div class="empty-state">購入済みのアイテムはありません</div>';
+        boughtList.innerHTML = '<div class="empty-state">買った履歴はここにつくよ 🛍️</div>';
       } else {
         boughtItems.forEach(item => {
           const li = document.createElement('li');
@@ -600,7 +653,7 @@
             </div>
             <div class="actions">
               <button class="btn-action btn-restore" onclick="restoreItem('${item.id}')">
-                戻す
+                もどす
               </button>
               <button class="btn-action btn-delete" onclick="deleteItem('${item.id}')" title="削除">
                 <i class="ph-bold ph-trash"></i>
