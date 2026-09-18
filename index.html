@@ -191,17 +191,47 @@
       document.getElementById("cameraInput").value = "";
     }
 
+    // 写真が選択された時の処理（自動リサイズ・圧縮）
     function handleImageSelect(event) {
       const file = event.target.files[0];
       if (!file) return;
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        currentImageBase64 = e.target.result;
-        document.getElementById("modalPreviewImg").src = currentImageBase64;
-        document.getElementById("previewContainer").style.display = "block";
-        document.getElementById("uploadLabel").style.display = "none";
-        document.getElementById("btnSaveBought").style.display = "block";
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+          
+          // 最大幅/高さを500pxにリサイズ（容量軽量化のため）
+          const max_size = 500;
+          if (width > height) {
+            if (width > max_size) {
+              height *= max_size / width;
+              width = max_size;
+            }
+          } else {
+            if (height > max_size) {
+              width *= max_size / height;
+              height = max_size;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // 画質0.6のJPEGに変換
+          currentImageBase64 = canvas.toDataURL("image/jpeg", 0.6);
+
+          document.getElementById("modalPreviewImg").src = currentImageBase64;
+          document.getElementById("previewContainer").style.display = "block";
+          document.getElementById("uploadLabel").style.display = "none";
+          document.getElementById("btnSaveBought").style.display = "block";
+        };
+        img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
