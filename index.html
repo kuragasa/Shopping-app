@@ -3,25 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>おかいものメモ 🛍️</title>
+  <title>お買い物メモ</title>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #FF85A1;
-      --primary-hover: #FF6B8B;
-      --primary-light: #FFE5EC;
-      --secondary: #FFB3C1;
-      --bg: #FFF5F7;
+      --primary: #3B7A57;
+      --primary-hover: #2F6245;
+      --primary-light: #EBF3EE;
+      --bg: #F8F9FA;
       --card-bg: #FFFFFF;
-      --text: #5C3D46;
-      --text-muted: #A3828C;
-      --border: #FFE0E6;
-      --danger: #FF6B6B;
-      --success: #6BCB77;
-      --accent: #FFD166;
+      --text: #2D3748;
+      --text-muted: #718096;
+      --border: #E2E8F0;
+      --danger: #E53E3E;
     }
 
     * {
@@ -32,11 +26,11 @@
     }
 
     body {
-      font-family: 'Zen Maru Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      padding-bottom: 50px;
+      padding-bottom: 40px;
     }
 
     header {
@@ -45,23 +39,23 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      box-shadow: 0 4px 15px rgba(255, 133, 161, 0.12);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      border-bottom: 2px solid var(--border);
+      border-bottom: 1px solid var(--border);
     }
 
     header h1 {
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: var(--primary-hover);
-      letter-spacing: 0.05em;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.02em;
     }
 
     header i {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       color: var(--primary);
     }
 
@@ -75,10 +69,10 @@
     .add-card {
       background: var(--card-bg);
       padding: 14px;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(255, 133, 161, 0.1);
-      margin-bottom: 28px;
-      border: 2px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
     }
 
     .input-group {
@@ -88,14 +82,12 @@
 
     input[type="text"] {
       flex: 1;
-      padding: 12px 18px;
-      border: 2px solid var(--border);
-      border-radius: 14px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
       font-size: 0.95rem;
-      font-family: inherit;
       outline: none;
-      background: #FFFBFB;
-      color: var(--text);
+      background: #FAFAFA;
       transition: all 0.2s;
     }
 
@@ -108,44 +100,41 @@
       background: var(--primary);
       color: white;
       border: none;
-      padding: 0 20px;
-      border-radius: 14px;
-      font-weight: 700;
+      padding: 0 18px;
+      border-radius: 10px;
+      font-weight: 600;
       font-size: 0.95rem;
-      font-family: inherit;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 4px;
-      box-shadow: 0 3px 8px rgba(255, 133, 161, 0.3);
-      transition: transform 0.1s, background 0.2s;
+      transition: background 0.2s;
     }
 
     .btn-add:active {
-      transform: scale(0.96);
       background: var(--primary-hover);
     }
 
     /* Lists */
     .section-title {
-      font-size: 1.05rem;
-      font-weight: 900;
-      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-muted);
       margin-bottom: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 4px;
+      padding: 0 2px;
     }
 
     .badge {
       background: var(--primary-light);
-      color: var(--primary-hover);
+      color: var(--primary);
       padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 600;
     }
 
     .item-list {
@@ -153,18 +142,18 @@
       margin-bottom: 32px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .item-card {
       background: var(--card-bg);
-      border-radius: 18px;
-      padding: 12px 16px;
+      border-radius: 12px;
+      padding: 12px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.03);
-      border: 2px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      border: 1px solid var(--border);
       gap: 12px;
     }
 
@@ -177,32 +166,29 @@
     }
 
     .item-text {
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 0.95rem;
+      font-weight: 500;
       word-break: break-all;
     }
 
     .bought-item {
-      background: #FAF8F8;
-      border-color: #F0E6E8;
+      background: #FAFAFA;
     }
 
     .bought-item .item-text {
       color: var(--text-muted);
       text-decoration: line-through;
-      font-weight: 500;
     }
 
     .item-thumb {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
       object-fit: cover;
       background: var(--primary-light);
       cursor: pointer;
       flex-shrink: 0;
-      border: 2px solid white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
     }
 
     .actions {
@@ -215,41 +201,39 @@
       border: none;
       background: none;
       padding: 8px;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
-      font-family: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.1s;
-    }
-
-    .btn-action:active {
-      transform: scale(0.92);
     }
 
     .btn-buy {
       background: var(--primary-light);
-      color: var(--primary-hover);
-      padding: 8px 14px;
+      color: var(--primary);
+      padding: 8px 12px;
       font-size: 0.85rem;
-      font-weight: 700;
-      border-radius: 12px;
+      font-weight: 600;
+      border-radius: 8px;
       gap: 4px;
+    }
+
+    .btn-buy:active {
+      background: #D9EADF;
     }
 
     .btn-restore {
       color: var(--text-muted);
-      background: #EFE8EA;
-      padding: 6px 12px;
+      background: #EDF2F7;
+      padding: 6px 10px;
       font-size: 0.8rem;
-      font-weight: 700;
-      border-radius: 10px;
+      font-weight: 600;
+      border-radius: 6px;
     }
 
     .btn-delete {
-      color: #D1B8C0;
-      font-size: 1.2rem;
+      color: #A0AEC0;
+      font-size: 1.1rem;
     }
 
     .btn-delete:active {
@@ -258,21 +242,19 @@
 
     .empty-state {
       text-align: center;
-      padding: 24px 16px;
+      padding: 20px;
       color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 700;
-      background: rgba(255,255,255,0.6);
-      border-radius: 18px;
-      border: 2px dashed var(--border);
+      font-size: 0.85rem;
+      background: rgba(255,255,255,0.5);
+      border-radius: 12px;
+      border: 1px dashed var(--border);
     }
 
     /* Modal / Dialog */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(92, 61, 70, 0.4);
-      backdrop-filter: blur(3px);
+      background: rgba(0, 0, 0, 0.4);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -290,27 +272,25 @@
 
     .modal-card {
       background: var(--card-bg);
-      border-radius: 24px;
+      border-radius: 16px;
       padding: 24px;
       width: 100%;
       max-width: 360px;
-      box-shadow: 0 10px 30px rgba(255, 133, 161, 0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       text-align: center;
-      border: 3px solid var(--border);
     }
 
     .modal-card h3 {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: var(--primary-hover);
-      margin-bottom: 6px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
     }
 
     .modal-card p {
       font-size: 0.85rem;
       color: var(--text-muted);
       margin-bottom: 18px;
-      font-weight: 700;
     }
 
     .camera-upload-btn {
@@ -321,17 +301,17 @@
       gap: 8px;
       border: 2px dashed var(--primary);
       background: var(--primary-light);
-      color: var(--primary-hover);
+      color: var(--primary);
       padding: 20px;
-      border-radius: 16px;
+      border-radius: 12px;
       cursor: pointer;
       margin-bottom: 16px;
-      font-weight: 700;
+      font-weight: 600;
       font-size: 0.9rem;
     }
 
     .camera-upload-btn i {
-      font-size: 2.2rem;
+      font-size: 2rem;
     }
 
     .preview-container {
@@ -343,8 +323,7 @@
       width: 100%;
       max-height: 200px;
       object-fit: cover;
-      border-radius: 14px;
-      border: 2px solid var(--border);
+      border-radius: 10px;
     }
 
     .modal-actions {
@@ -358,12 +337,10 @@
       color: white;
       border: none;
       padding: 12px;
-      border-radius: 14px;
-      font-weight: 700;
-      font-family: inherit;
+      border-radius: 10px;
+      font-weight: 600;
       cursor: pointer;
       width: 100%;
-      box-shadow: 0 3px 8px rgba(255, 133, 161, 0.3);
     }
 
     .btn-skip {
@@ -372,8 +349,6 @@
       color: var(--text-muted);
       padding: 8px;
       font-size: 0.85rem;
-      font-weight: 700;
-      font-family: inherit;
       cursor: pointer;
     }
 
@@ -382,9 +357,7 @@
       max-width: 90vw;
       max-height: 80vh;
       object-fit: contain;
-      border-radius: 16px;
-      border: 3px solid white;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      border-radius: 12px;
     }
 
     #cameraInput {
@@ -395,31 +368,31 @@
 <body>
 
   <header>
-    <i class="ph-fill ph-heart"></i>
-    <h1>おかいものメモ</h1>
+    <i class="ph-bold ph-shopping-bag"></i>
+    <h1>お買い物メモ</h1>
   </header>
 
   <div class="container">
     <!-- Add Form -->
     <div class="add-card">
       <div class="input-group">
-        <input type="text" id="itemInput" placeholder="かうものを入力..." onkeypress="handleKeyPress(event)">
+        <input type="text" id="itemInput" placeholder="買うものを入力..." onkeypress="handleKeyPress(event)">
         <button class="btn-add" onclick="addItem()">
-          <i class="ph-bold ph-plus"></i> ついの追加
+          <i class="ph-bold ph-plus"></i> 追加
         </button>
       </div>
     </div>
 
     <!-- Todo List -->
     <div class="section-title">
-      <span>買いたいもの 🛒</span>
+      <span>買いたいもの</span>
       <span id="todoCount" class="badge">0件</span>
     </div>
     <ul id="todoList" class="item-list"></ul>
 
     <!-- Bought List -->
-    <div class="section-title" style="margin-top: 36px;">
-      <span>買ったもの 🎁</span>
+    <div class="section-title" style="margin-top: 32px;">
+      <span>買ったもの</span>
       <span id="boughtCount" class="badge">0件</span>
     </div>
     <ul id="boughtList" class="item-list"></ul>
@@ -428,12 +401,12 @@
   <!-- Buy Modal -->
   <div class="modal-overlay" id="buyModal">
     <div class="modal-card">
-      <h3 id="modalItemName">商品のきろく</h3>
-      <p>買ったものの写真をのこせるよ 📸</p>
+      <h3 id="modalItemName">購入の記録</h3>
+      <p>商品の写真を撮影・保存できます</p>
 
       <label class="camera-upload-btn" for="cameraInput" id="uploadLabel">
-        <i class="ph-fill ph-camera"></i>
-        <span>タップしてパシャリ！</span>
+        <i class="ph-bold ph-camera"></i>
+        <span>タップして写真を撮影/選択</span>
       </label>
       <input type="file" id="cameraInput" accept="image/*" capture="environment" onchange="handleImageSelect(event)">
 
@@ -442,7 +415,7 @@
       </div>
 
       <div class="modal-actions">
-        <button class="btn-confirm" id="btnSaveBought" onclick="confirmBuy(true)" style="display: none;">写真付きで保存する</button>
+        <button class="btn-confirm" id="btnSaveBought" onclick="confirmBuy(true)" style="display: none;">写真付きで保存</button>
         <button class="btn-skip" onclick="confirmBuy(false)">写真なしで「買った」にする</button>
         <button class="btn-skip" onclick="closeBuyModal()" style="color: var(--danger);">キャンセル</button>
       </div>
@@ -612,7 +585,7 @@
       document.getElementById('boughtCount').textContent = `${boughtItems.length}件`;
 
       if (todoItems.length === 0) {
-        todoList.innerHTML = '<div class="empty-state">買いたいものはまだないよ 🎈</div>';
+        todoList.innerHTML = '<div class="empty-state">買いたいものは現在ありません</div>';
       } else {
         todoItems.forEach(item => {
           const li = document.createElement('li');
@@ -635,7 +608,7 @@
       }
 
       if (boughtItems.length === 0) {
-        boughtList.innerHTML = '<div class="empty-state">買った履歴はここにつくよ 🛍️</div>';
+        boughtList.innerHTML = '<div class="empty-state">購入済みのアイテムはありません</div>';
       } else {
         boughtItems.forEach(item => {
           const li = document.createElement('li');
@@ -653,7 +626,7 @@
             </div>
             <div class="actions">
               <button class="btn-action btn-restore" onclick="restoreItem('${item.id}')">
-                もどす
+                戻す
               </button>
               <button class="btn-action btn-delete" onclick="deleteItem('${item.id}')" title="削除">
                 <i class="ph-bold ph-trash"></i>
