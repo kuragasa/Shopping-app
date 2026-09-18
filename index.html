@@ -65,7 +65,6 @@
       padding: 20px 16px;
     }
 
-    /* Add Form */
     .add-card {
       background: var(--card-bg);
       padding: 14px;
@@ -116,7 +115,6 @@
       background: var(--primary-hover);
     }
 
-    /* Lists */
     .section-title {
       font-size: 0.95rem;
       font-weight: 700;
@@ -250,7 +248,6 @@
       border: 1px dashed var(--border);
     }
 
-    /* Modal / Dialog */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -352,7 +349,6 @@
       cursor: pointer;
     }
 
-    /* Image Preview Modal */
     .img-modal-content {
       max-width: 90vw;
       max-height: 80vh;
@@ -428,48 +424,195 @@
   </div>
 
   <script>
-// ★コピーしたWebアプリURLをここに貼り付けてください
-const GAS_URL = "https://script.google.com/macros/s/AKfycbyAwPljYy91qdM6Z-vEMqBwRVV0nY5ETxnLSqkpl19W-UIj7y4DtAPEs1VMMNJ9WFNapw/exec";
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyAwPljYy91qdM6Z-vEMqBwRVV0nY5ETxnLSqkpl19W-UIj7y4DtAPEs1VMMNJ9WFNapw/exec";
 
-// 画面読み込み時にデータを取得
-document.addEventListener("DOMContentLoaded", () => {
-  fetchData();
-});
+    let items = [];
+    let currentBuyingId = null;
+    let currentImageBase64 = null;
 
-// 1. スプレッドシートからデータ一覧を取得
-async function fetchData() {
-  try {
-    const response = await fetch(GAS_URL);
-    const data = await response.json();
-    console.log("取得成功:", data);
-    
-    // TODO: 取得した data を使ってUIを描画・更新する処理を呼び出す
-    // renderList(data);
-  } catch (error) {
-    console.error("データ取得エラー:", error);
-  }
-}
-
-// 2. スプレッドシートに新しいデータを追加
-async function addData(newItem) {
-  try {
-    const response = await fetch(GAS_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8", // GASの仕様に合わせた形式
-      },
-      body: JSON.stringify(newItem)
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchData();
     });
-    
-    const result = await response.json();
-    console.log("保存成功:", result);
-    
-    // 保存後に最新データを再取得して表示を更新
-    await fetchData();
-  } catch (error) {
-    console.error("データ保存エラー:", error);
-  }
-}
+
+    // 1. スプレッドシートからデータ一覧を取得
+    async function fetchData() {
+      try {
+        const response = await fetch(GAS_URL);
+        items = await response.json();
+        renderList();
+      } catch (error) {
+        console.error("データ取得エラー:", error);
+      }
+    }
+
+    // 2. GAS経由でスプレッドシートへデータ送信
+    async function postData(action, payload) {
+      try {
+        await fetch(GAS_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ action, ...payload })
+        });
+        await fetchData();
+      } catch (error) {
+        console.error("データ送信エラー:", error);
+      }
+    }
+
+    // アイテムの追加
+    function addItem() {
+      const input = document.getElementById("itemInput");
+      const title = input.value.trim();
+      if (!title) return;
+
+      const newItem = {
+        id: Date.now().toString(),
+        title: title,
+        status: "todo",
+        image: ""
+      };
+
+      input.value = "";
+      postData("add", newItem);
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === "Enter") addItem();
+    }
+
+    // 購入ダイアログの制御
+    function openBuyModal(id) {
+      const item = items.find(i => i.id == id);
+      if (!item) return;
+
+      currentBuyingId = id;
+      currentImageBase64 = null;
+
+      document.getElementById("modalItemName").textContent = item.title;
+      document.getElementById("uploadLabel").style.display = "flex";
+      document.getElementById("previewContainer").style.display = "none";
+      document.getElementById("btnSaveBought").style.display = "none";
+      document.getElementById("buyModal").classList.add("active");
+    }
+
+    function closeBuyModal() {
+      document.getElementById("buyModal").classList.remove("active");
+      currentBuyingId = null;
+      currentImageBase64 = null;
+      document.getElementById("cameraInput").value = "";
+    }
+
+    function handleImageSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentImageBase64 = e.target.result;
+        document.getElementById("modalPreviewImg").src = currentImageBase64;
+        document.getElementById("previewContainer").style.display = "block";
+        document.getElementById("uploadLabel").style.display = "none";
+        document.getElementById("btnSaveBought").style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function confirmBuy(withImage) {
+      if (!currentBuyingId) return;
+
+      const updateData = {
+        id: currentBuyingId,
+        status: "bought",
+        image: withImage ? currentImageBase64 : ""
+      };
+
+      closeBuyModal();
+      postData("update", updateData);
+    }
+
+    function restoreItem(id) {
+      postData("update", { id: id, status: "todo", image: "" });
+    }
+
+    function deleteItem(id) {
+      postData("delete", { id: id });
+    }
+
+    // 画像拡大用
+    function openImageViewer(src) {
+      document.getElementById("fullImageView").src = src;
+      document.getElementById("imageViewerModal").classList.add("active");
+    }
+
+    function closeImageViewer() {
+      document.getElementById("imageViewerModal").classList.remove("active");
+    }
+
+    // 画面再描画
+    function renderList() {
+      const todoList = document.getElementById("todoList");
+      const boughtList = document.getElementById("boughtList");
+
+      todoList.innerHTML = "";
+      boughtList.innerHTML = "";
+
+      const todoItems = items.filter(i => i.status === "todo");
+      const boughtItems = items.filter(i => i.status === "bought");
+
+      document.getElementById("todoCount").textContent = `${todoItems.length}件`;
+      document.getElementById("boughtCount").textContent = `${boughtItems.length}件`;
+
+      if (todoItems.length === 0) {
+        todoList.innerHTML = '<div class="empty-state">買いたいものは登録されていません</div>';
+      } else {
+        todoItems.forEach(item => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div class="item-info">
+              <span class="item-text">${escapeHtml(item.title)}</span>
+            </div>
+            <div class="actions">
+              <button class="btn-action btn-buy" onclick="openBuyModal('${item.id}')">
+                <i class="ph-bold ph-check"></i> 買った
+              </button>
+              <button class="btn-action btn-delete" onclick="deleteItem('${item.id}')">
+                <i class="ph-bold ph-trash"></i>
+              </button>
+            </div>
+          `;
+          todoList.appendChild(li);
+        });
+      }
+
+      if (boughtItems.length === 0) {
+        boughtList.innerHTML = '<div class="empty-state">買った履歴はありません</div>';
+      } else {
+        boughtItems.forEach(item => {
+          const li = document.createElement("li");
+          li.className = "item-card bought-item";
+          const imgHtml = item.image ? `<img src="${item.image}" class="item-thumb" onclick="openImageViewer('${item.image}')">` : '';
+          li.innerHTML = `
+            <div class="item-info">
+              ${imgHtml}
+              <span class="item-text">${escapeHtml(item.title)}</span>
+            </div>
+            <div class="actions">
+              <button class="btn-action btn-restore" onclick="restoreItem('${item.id}')">戻す</button>
+              <button class="btn-action btn-delete" onclick="deleteItem('${item.id}')">
+                <i class="ph-bold ph-trash"></i>
+              </button>
+            </div>
+          `;
+          boughtList.appendChild(li);
+        });
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
   </script>
 </body>
 </html>
